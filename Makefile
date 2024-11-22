@@ -4,7 +4,7 @@ IMS_T6=src/*.cpp # src/*.hpp src/**/*.cpp src/**/*.hpp
 ALL=$(IMS_T6)
 
 .PHONY: all
-all: build doc
+all: build
 
 .PHONY: build
 build:
