@@ -8,6 +8,7 @@
 constexpr double RUN_TIME = 1000;
 
 constexpr unsigned long OPERATOR_CNT = 3;
+// TODO: don't interrupt current
 static std::vector<std::unique_ptr<Facility>> operators;
 
 #define DEBUG(...) std::cerr << std::format(__VA_ARGS__) << '\n';
@@ -42,7 +43,6 @@ public:
     Call(Call *redirected = nullptr) : _redirected(redirected), _operator(*operators[static_cast<std::size_t>(Random() * operators.size())]) {}
 
     void Behavior() override {
-        DEBUG("Time: {}", Time);
         Seize(_operator, _redirected ? REDIRECT_PRIORITY : ENTER_PRIORITY);
         Wait(Uniform(ASK_NUMBER_TIME_MIN, ASK_NUMBER_TIME_MAX));
         auto action = get_action();
@@ -87,7 +87,6 @@ private:
     }
 
     void call() {
-        Release(_operator);
         Wait(Exponential(CALL_TIME));
         end();
     }
