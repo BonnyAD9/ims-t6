@@ -11,8 +11,8 @@ void start() {
     RandomSeed(long(std::chrono::system_clock::now().time_since_epoch().count()
     ));
 
-    Print("calls - SIMLIB/C++ example\n");
     SetOutput("model.out");
+    PRINTLN("SIMLIB/C++ - Telephone Exchange");
 
     Config conf;
     conf.init();
