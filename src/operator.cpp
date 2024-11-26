@@ -32,7 +32,12 @@ void Operator::release(Entity *ent) {
 }
 
 void Operator::output() {
+    auto util = _utilization;
+    if (_cur) {
+        util += Time - _start_time;
+    }
+
     PRINTLN("Operator: {}", _name);
-    PRINTLN("  utilization: {}", _utilization / Time);
+    PRINTLN("  utilization: {}", util / (Time - StartTime));
     PRINTLN("  users      : {}", _users.size());
 }
