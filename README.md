@@ -10,6 +10,6 @@ tar xzf <simlib-file>
 cd simlib
 make
 sudo make install
-printf /usr/local/lib | sudo cat /etc/ld.so.conf.d/simlib.conf
 ```
+- Write `/usr/local/lib` to `/etc/ld.so.conf.d/simlib.conf`
 - Restart vscode
