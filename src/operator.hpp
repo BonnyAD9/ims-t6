@@ -13,7 +13,8 @@ public:
     Operator(std::string name)
         : _name(std::move(name)), _queue(_name.c_str()) { }
 
-    void end(Entity *ent);
+    void start();
+    void end();
 
     void use(Entity *ent, EntityPriority_t priority);
     void release(Entity *ent);
@@ -32,6 +33,6 @@ private:
 
     double _utilization = 0;
     double _start_time = 0;
-    std::unordered_set<std::intptr_t> _seen;
-    std::unordered_set<std::intptr_t> _finished;
+    std::size_t _started;
+    std::size_t _finished;
 };

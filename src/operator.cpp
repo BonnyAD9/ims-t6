@@ -2,16 +2,15 @@
 
 #include "debug.hpp"
 
-void Operator::end(Entity *ent) {
-    _finished.insert(reinterpret_cast<intptr_t>(ent));
-}
+void Operator::start() { ++_started; }
+
+void Operator::end() { ++_finished; }
 
 void Operator::use(Entity *ent, EntityPriority_t priority) {
     if (ent == _cur) {
         return;
     }
 
-    _seen.insert(reinterpret_cast<intptr_t>(ent));
     if (!_cur) {
         _start_time = Time;
         _cur = ent;
@@ -47,6 +46,6 @@ void Operator::output() {
 
     PRINTLN("Operator: {}", _name);
     PRINTLN("  utilization: {}", util / (Time - StartTime));
-    PRINTLN("  users      : {}", _seen.size());
-    PRINTLN("  whole calls: {}", _finished.size());
+    PRINTLN("  users      : {}", _started);
+    PRINTLN("  whole calls: {}", _finished);
 }

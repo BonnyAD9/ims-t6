@@ -7,6 +7,7 @@
 void Call::Behavior() {
     ++_config.s_started_calls;
     _start_time = Time;
+    _operator.start();
     _operator.use(
         this,
         _redirected || _incoming ? Operator::REDIRECT_PRIORITY
@@ -74,10 +75,10 @@ void Call::call() {
 void Call::end() {
     _operator.use(this, Operator::END_PRIORITY);
     Wait(_config.end_time);
-    _operator.end(this);
-    _operator.release(this);
+    _operator.end();
     _end_time = Time;
     collect();
+    _operator.release(this);
     if (_redirected) {
         _redirected->Activate();
     }
