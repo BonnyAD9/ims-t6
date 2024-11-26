@@ -38,10 +38,9 @@ void Call::direct_call() {
 }
 
 void Call::long_distance_call() {
-    constexpr double P_KNOWN_NUMBER = 0.95;
     Release(_operator);
     Wait(Exponential(_config.long_distance_wait));
-    if (Random() < P_KNOWN_NUMBER) {
+    if (Random() >= _config.p_unknown_number) {
         Wait(Exponential(_config.call_time));
     }
     end();
@@ -70,21 +69,18 @@ void Call::end() {
 }
 
 Action Call::get_action() {
-    constexpr double F_UNKNOWN = 0.05;
-    constexpr double F_DIRECT = 0.7 + F_UNKNOWN;
-    constexpr double F_LONG_DISTANCE = 0.1 + F_DIRECT;
-
     auto rn = Random();
     if (_redirected) {
-        return rn >= F_UNKNOWN ? Action::DIRECTLY : Action::UNKNOWN_NUMBER;
+        return rn >= _config.p_unknown_number ? Action::DIRECTLY
+                                              : Action::UNKNOWN_NUMBER;
     }
-    if (rn < F_UNKNOWN) {
+    if (rn < _config.f0_unknown_number()) {
         return Action::UNKNOWN_NUMBER;
     }
-    if (rn < F_DIRECT) {
+    if (rn < _config.f1_direct()) {
         return Action::DIRECTLY;
     }
-    if (rn < F_LONG_DISTANCE) {
+    if (rn < _config.f2_long_distance()) {
         return Action::LONG_DISTANCE;
     }
     return Action::REDIRECT;
