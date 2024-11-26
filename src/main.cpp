@@ -43,7 +43,7 @@ public:
     Call(Call *redirected = nullptr)
         : _redirected(redirected),
           _operator(
-              *operators[static_cast<std::size_t>(Random() * operators.size())]
+              *operators[std::size_t(Random() * double(operators.size()))]
           ) { }
 
     void Behavior() override {
@@ -75,9 +75,10 @@ private:
     void direct_call();
 
     void long_distance_call() {
+        constexpr double P_KNOWN_NUMBER = 0.95;
         Release(_operator);
         Wait(Exponential(LONG_DISTANCE_WAIT));
-        if (Random() < 0.75) {
+        if (Random() < P_KNOWN_NUMBER) {
             Wait(Exponential(CALL_TIME));
         }
         end();
@@ -106,17 +107,21 @@ private:
     }
 
     Action get_action() {
+        constexpr double F_UNKNOWN = 0.05;
+        constexpr double F_DIRECT = 0.7 + F_UNKNOWN;
+        constexpr double F_LONG_DISTANCE = 0.1 + F_DIRECT;
+
         auto rn = Random();
         if (_redirected) {
-            return rn < 0.95 ? Action::DIRECTLY : Action::UNKNOWN_NUMBER;
+            return rn >= F_UNKNOWN ? Action::DIRECTLY : Action::UNKNOWN_NUMBER;
         }
-        if (rn < 0.05) {
+        if (rn < F_UNKNOWN) {
             return Action::UNKNOWN_NUMBER;
         }
-        if (rn < 0.75) {
+        if (rn < F_DIRECT) {
             return Action::DIRECTLY;
         }
-        if (rn < 0.85) {
+        if (rn < F_LONG_DISTANCE) {
             return Action::LONG_DISTANCE;
         }
         return Action::REDIRECT;
@@ -166,7 +171,7 @@ void Call::direct_call() {
     call();
 }
 
-int main() { // experiment description
+void start() { // experiment description
     Print("calls - SIMLIB/C++ example\n");
     SetOutput("model.out");
     Init(0, RUN_TIME);
@@ -183,5 +188,16 @@ int main() { // experiment description
     for (auto &op : operators) {
         op->Output();
     }
-    return 0;
+}
+
+int main() {
+    try {
+        start();
+    } catch (std::exception &ex) {
+        std::cerr << ex.what() << '\n';
+        return EXIT_FAILURE;
+    } catch (...) {
+        std::cerr << "An error occured\n";
+        return EXIT_FAILURE;
+    }
 }
