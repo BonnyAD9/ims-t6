@@ -1,6 +1,6 @@
 BUILD_TYPE=Debug
 PARALEL=-j $(shell nproc)
-IMS_T6=src/*.cpp # src/*.hpp src/**/*.cpp src/**/*.hpp
+IMS_T6=src/*.cpp src/*.hpp # src/**/*.cpp src/**/*.hpp
 ALL=$(IMS_T6)
 
 .PHONY: all
