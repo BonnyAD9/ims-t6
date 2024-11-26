@@ -36,6 +36,14 @@ struct Config {
     double call_distance = 60;
     double incall_distance = 5 * 60;
 
+    // Stats
+
+    std::size_t s_started_calls = 0;
+    std::size_t s_finished_calls = 0;
+    double s_wait_time = 0;
+    double s_call_time = 0;
+    double s_ring_time = 0;
+
     // NOLINTEND(readability-magic-numbers)
 
     [[nodiscard]]
@@ -60,4 +68,5 @@ struct Config {
 
     void init();
     Operator &rng_op();
+    void output();
 };

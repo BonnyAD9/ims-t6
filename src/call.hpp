@@ -31,6 +31,7 @@ private:
     void call();
     void end();
     Action get_action();
+    void collect();
 
     Config &_config;
     Call *_redirected;

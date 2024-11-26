@@ -21,6 +21,7 @@ void start() {
     (new OutgoingCall(conf))->Activate();
     (new IncomingCall(conf))->Activate();
     Run();
+    conf.output();
     for (auto &op : conf.operators) {
         op->output();
     }

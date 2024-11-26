@@ -2,7 +2,10 @@
 
 #include <algorithm>
 
+#include "debug.hpp"
+
 void Call::Behavior() {
+    ++_config.s_started_calls;
     _start_time = Time;
     _operator.use(
         this,
@@ -74,7 +77,7 @@ void Call::end() {
     _operator.end(this);
     _operator.release(this);
     _end_time = Time;
-    // TODO: Print stats
+    collect();
     if (_redirected) {
         _redirected->Activate();
     }
@@ -97,4 +100,22 @@ Action Call::get_action() {
         return Action::LONG_DISTANCE;
     }
     return Action::REDIRECT;
+}
+
+void Call::collect() {
+    auto total = _end_time - _start_time;
+    auto wait_time = total - _ring_time - _call_time;
+    _config.s_wait_time += wait_time;
+    _config.s_call_time += _call_time;
+    _config.s_ring_time += _ring_time;
+    ++_config.s_finished_calls;
+    // PRINTLN(
+    //     "Call: {} {}",
+    //     _redirected ? "redirected" : "",
+    //     _incoming ? "incoming" : ""
+    // );
+    // PRINTLN("  Total time: {}", total);
+    // PRINTLN("  Wait time : {}", wait_time);
+    // PRINTLN("  Call time : {}", _call_time);
+    // PRINTLN("  Ring time : {}", _ring_time);
 }
