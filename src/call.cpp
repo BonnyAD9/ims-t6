@@ -19,12 +19,15 @@ void Call::Behavior() {
         end();
         break;
     case Action::DIRECTLY:
+        _operator.release(this);
         direct_call();
         break;
     case Action::LONG_DISTANCE:
+        _operator.release(this);
         long_distance_call();
         break;
     case Action::REDIRECT:
+        _operator.release(this);
         redirect_call();
         break;
     }
@@ -37,7 +40,6 @@ void Call::direct_call() {
         end();
         return;
     }
-    _operator.release(this);
     if (ring > _config.ring_timeout) {
         // Ringing is intercepted because the called user is not picking
         Wait(_config.ring_timeout);
@@ -49,7 +51,6 @@ void Call::direct_call() {
 }
 
 void Call::long_distance_call() {
-    _operator.release(this);
     Wait(Exponential(_config.long_distance_wait));
     if (Random() >= _config.p_unknown_number) {
         direct_call();
@@ -59,7 +60,6 @@ void Call::long_distance_call() {
 }
 
 void Call::redirect_call() {
-    _operator.release(this);
     (new Call(_config, this))->Activate();
     Passivate();
     end();

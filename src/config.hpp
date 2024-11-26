@@ -12,7 +12,7 @@
 struct Config {
     // NOLINTBEGIN(readability-magic-numbers)
 
-    double run_time = 1000;
+    double run_time = 12 * 3600;
 
     std::vector<std::unique_ptr<Operator>> operators;
     std::size_t op_cnt = 3;

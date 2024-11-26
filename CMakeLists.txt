@@ -14,8 +14,7 @@ file(GLOB ims-t6_files CONFIGURE_DEPENDS "src/**/*.cpp" "src/*.cpp")
 target_sources(ims-t6 PRIVATE ${ims-t6_files})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -fsanitize=address")
-    target_link_libraries(ims-t6 PRIVATE -fsanitize=address)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 endif()
 
 target_link_libraries(ims-t6 PRIVATE

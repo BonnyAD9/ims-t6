@@ -7,6 +7,10 @@ void Operator::end(Entity *ent) {
 }
 
 void Operator::use(Entity *ent, EntityPriority_t priority) {
+    if (ent == _cur) {
+        return;
+    }
+
     _seen.insert(reinterpret_cast<intptr_t>(ent));
     if (!_cur) {
         _start_time = Time;
