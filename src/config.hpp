@@ -15,7 +15,6 @@ struct Config {
     double run_time = 1000;
 
     std::vector<std::unique_ptr<Operator>> operators;
-    std::vector<std::string> op_names;
     std::size_t op_cnt = 3;
 
     double ask_number_time_min = 20;

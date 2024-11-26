@@ -10,11 +10,8 @@ void Config::init() {
     p_redirect *= ndiv;
 
     while (operators.size() < op_cnt) {
-        auto s = std::format("operator{}", operators.size());
-        s.reserve(sizeof(std::string));
-        op_names.push_back(std::move(s));
         operators.push_back(
-            std::make_unique<Operator>(op_names.rbegin()->c_str())
+            std::make_unique<Operator>(std::format("operator{}", operators.size()))
         );
     }
 }
