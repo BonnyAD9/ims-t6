@@ -1,7 +1,7 @@
 #include "call.hpp"
 
 void Call::Behavior() {
-    Seize(_operator, _redirected ? REDIRECT_PRIORITY : ENTER_PRIORITY);
+    _operator.use(this, _redirected ? REDIRECT_PRIORITY : ENTER_PRIORITY);
     Wait(Uniform(_config.ask_number_time_min, _config.ask_number_time_max));
     auto action = get_action();
     switch (action) {
@@ -26,7 +26,7 @@ void Call::direct_call() {
         end();
         return;
     }
-    Release(_operator);
+    _operator.release(this);
     if (wait > _config.ring_timeout) {
         // Ringing is intercepted because the called user is not picking
         Wait(_config.ring_timeout);
@@ -38,7 +38,7 @@ void Call::direct_call() {
 }
 
 void Call::long_distance_call() {
-    Release(_operator);
+    _operator.release(this);
     Wait(Exponential(_config.long_distance_wait));
     if (Random() >= _config.p_unknown_number) {
         Wait(Exponential(_config.call_time));
@@ -47,7 +47,7 @@ void Call::long_distance_call() {
 }
 
 void Call::redirect_call() {
-    Release(_operator);
+    _operator.release(this);
     (new Call(_config, this))->Activate();
     Passivate();
     end();
@@ -59,9 +59,9 @@ void Call::call() {
 }
 
 void Call::end() {
-    Seize(_operator, END_PRIORITY);
+    _operator.use(this, END_PRIORITY);
     Wait(_config.end_time);
-    Release(_operator);
+    _operator.release(this);
     if (_redirected) {
         _redirected->Activate();
     }

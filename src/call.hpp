@@ -34,5 +34,5 @@ private:
 
     Config &_config;
     Call *_redirected;
-    Facility &_operator;
+    Operator &_operator;
 };

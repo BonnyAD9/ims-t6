@@ -7,12 +7,14 @@
 
 #include <simlib.h>
 
+#include "operator.hpp"
+
 struct Config {
     // NOLINTBEGIN(readability-magic-numbers)
 
     double run_time = 1000;
 
-    std::vector<std::unique_ptr<Facility>> operators;
+    std::vector<std::unique_ptr<Operator>> operators;
     std::vector<std::string> op_names;
     std::size_t op_cnt = 3;
 
@@ -57,5 +59,5 @@ struct Config {
     }
 
     void init();
-    Facility &rng_op();
+    Operator &rng_op();
 };

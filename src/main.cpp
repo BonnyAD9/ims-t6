@@ -14,9 +14,6 @@ void start() { // experiment description
     Init(0, conf.run_time);
     (new OutgoingCall(conf))->Activate();
     Run();
-    for (auto &op : conf.operators) {
-        op->Output();
-    }
 }
 
 int main() {
