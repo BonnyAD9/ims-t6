@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[czech]{babel}
+\usepackage{csquotes}
+
+\usepackage{biblatex}
+\addbibresource{doc.bib}
+
+% Title, Author, Date
+\title{IMS T6: Komunikace a služby}
+\author{
+    Martin Slezák\\
+    \texttt{xsleza26}
+    \and
+    Jakub Antonín Štigler\\
+    \texttt{xstigl00}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+\section{Úvod}
+
+Tento projekt představuje simulaci historického modelu telekomunikační
+infrastruktury, konkrétně v období, kdy byly telefonní hovory zajišťovány
+manuálními ústřednami. Tyto ústředny zajišťovaly propojení hovorů mezi
+účastníky. Každá ústředna obsahovala několik stanic se zásuvnými deskami, které
+byly vybaveny konektory pro připojení jednotlivých telefonních spojení. U
+těchto stanic pracovali operátoři, jejichž úkolem bylo manuálně připojovat
+dráty do správných konektorů, aby bylo možné uskutečnit hovor.
+
+\subsection{Průběh hovoru}
+
+Proces spojení hovoru probíhal následujícím způsobem:
+
+\begin{enumerate}
+    \item \textbf{Inicializace hovoru:} Jakmile volající zvedl sluchátko, na
+        stanici operátora se rozsvítila dioda signalizující příchozí hovor a
+        upozornila ho na potřebnou akci.
+    \item \textbf{Dotaz na číslo:} Operátor připojil odpovědní drát do
+        příslušného konektoru a zahájil komunikaci s volajícím a zeptal se na
+        požadované telefonní číslo.
+    \item \textbf{Rozřazení hovoru:} Na základě čísla operátor určil, zda jde
+        o:
+        \begin{itemize}
+            \item \textbf{Lokální hovor:} Operátor připojil vyzváněcí drát k
+                cílovému konektoru, což aktivovalo zvonění na straně
+                volajícího.
+            \item \textbf{Lokální hovor na jinou desku:} Pokud bylo volané
+                číslo na jiné desce, operátor přesměroval hovor v rámci
+                ústředny.
+            \item \textbf{Dálkový hovor:} V případě dálkových hovorů
+                operátor využil kmenovou síť, aby propojil jiného operátora v
+                jiné ústředně.
+        \end{itemize}
+\end{enumerate}
+
+\section{Ceny přechodů}
+
+Při tvoření modelu jsme se snažili odhadnout ceny jednotlivých přechodů na
+základě našeho internetového průzkumu. Některé přechody jsou časové, některé
+zase náhodné s nepravidelným rozložením. V této sekci bych chtěl popsat ty
+nejzajímavější.
+
+\subsection*{Dotaz na číslo}
+
+Například dotaz na číslo jsme odhadli, že bude trvat zhruba 20-60 sekund.
+V případě přesměrování se poté jednotlivý operátoři ptají na číslo a jelikož
+již mají praxi, zabere jim to pouze 10-20 sekund.
+
+\subsection*{Doba spojení dálkového hovoru}
+
+Doba spojení u dálkových hovorů se mohla velmi lišit v závislosti na dálce
+spojení a počtu ústředen na trase hovoru. V roce 1918 byl průměrný čas spojení
+dálkového hovoru 15 minut. My jsme tedy pro náš model zvolili exponencionální
+rozložení se středem 20 minut.
+
+\subsection*{Doba hovoru}
+
+Dříve hovory nebyly tak časté a když už někdo někomu volal, pravděpodobně s ním
+nějakou dobu mluvil. Na základě tohoto úsudku jsme se rozhodli modelovat dobu
+hovoru jako exponencionální rozložení se středem 5 minut.
+
+\subsection*{Dělení hovoru}
+
+Příchozí hovor náhodně dělíme do čtyř podkategorií s nepravidelným rozložením.
+Tyto kategorie jsou:
+\begin{enumerate}
+    \item Neznámé číslo (5\%)
+    \item Přímé spojení (70\%)
+    \item Dálkové spojení (10\%)
+    \item Přesměrování na jinou desku (15\%)
+\end{enumerate}
+
+\section{Spuštění projektu}
+
+\subsection*{Nainstalování závislostí}
+
+Před samotným spuštěním je třeba mít nainstalované tyto závislosti:
+\begin{itemize}
+    \item make
+    \item cmake
+    \item C++ compiler
+    \item SIMLIB
+\end{itemize}
+
+\subsection*{Spuštění}
+
+Projekt lze spustit pomocí připraveného \texttt{Makefile}:
+\begin{verbatim}
+    make run
+\end{verbatim}
+
+\noindent Je také možné projekt pouze zkompilovat:
+\begin{verbatim}
+    make
+\end{verbatim}
+
+\newpage
+\nocite{*}
+\printbibliography
+
+\end{document}
+
