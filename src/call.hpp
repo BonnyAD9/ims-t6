@@ -29,4 +29,9 @@ private:
     Config &_config;
     Call *_redirected;
     Operator &_operator;
+
+    double _start_time = 0;
+    double _end_time = 0;
+    double _ring_time = 0;
+    double _call_time = 0;
 };

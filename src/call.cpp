@@ -1,6 +1,9 @@
 #include "call.hpp"
 
+#include <algorithm>
+
 void Call::Behavior() {
+    _start_time = Time;
     _operator.use(this, _redirected ? Operator::REDIRECT_PRIORITY : Operator::ENTER_PRIORITY);
     Wait(Uniform(_config.ask_number_time_min, _config.ask_number_time_max));
     auto action = get_action();
@@ -21,19 +24,20 @@ void Call::Behavior() {
 }
 
 void Call::direct_call() {
-    auto wait = Normal(_config.pick_time, _config.pick_deviation);
-    if (wait <= 0) { // User is already calling
+    auto ring = Normal(_config.pick_time, _config.pick_deviation);
+    _ring_time += std::clamp(ring, 0., _config.ring_timeout);
+    if (ring <= 0) { // User is already calling
         end();
         return;
     }
     _operator.release(this);
-    if (wait > _config.ring_timeout) {
+    if (ring > _config.ring_timeout) {
         // Ringing is intercepted because the called user is not picking
         Wait(_config.ring_timeout);
         end();
         return;
     }
-    Wait(wait);
+    Wait(ring);
     call();
 }
 
@@ -41,7 +45,8 @@ void Call::long_distance_call() {
     _operator.release(this);
     Wait(Exponential(_config.long_distance_wait));
     if (Random() >= _config.p_unknown_number) {
-        Wait(Exponential(_config.call_time));
+        direct_call();
+        return;
     }
     end();
 }
@@ -54,7 +59,8 @@ void Call::redirect_call() {
 }
 
 void Call::call() {
-    Wait(Exponential(_config.call_time));
+    _call_time = Exponential(_config.call_time);
+    Wait(_call_time);
     end();
 }
 
@@ -63,6 +69,8 @@ void Call::end() {
     Wait(_config.end_time);
     _operator.end(this);
     _operator.release(this);
+    _end_time = Time;
+    // TODO: Print stats
     if (_redirected) {
         _redirected->Activate();
     }
