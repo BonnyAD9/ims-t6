@@ -1,7 +1,7 @@
 #include "call.hpp"
 
 void Call::Behavior() {
-    _operator.use(this, _redirected ? REDIRECT_PRIORITY : ENTER_PRIORITY);
+    _operator.use(this, _redirected ? Operator::REDIRECT_PRIORITY : Operator::ENTER_PRIORITY);
     Wait(Uniform(_config.ask_number_time_min, _config.ask_number_time_max));
     auto action = get_action();
     switch (action) {
@@ -59,8 +59,9 @@ void Call::call() {
 }
 
 void Call::end() {
-    _operator.use(this, END_PRIORITY);
+    _operator.use(this, Operator::END_PRIORITY);
     Wait(_config.end_time);
+    _operator.end(this);
     _operator.release(this);
     if (_redirected) {
         _redirected->Activate();

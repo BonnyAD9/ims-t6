@@ -9,12 +9,6 @@ enum class Action {
     REDIRECT,
 };
 
-enum {
-    ENTER_PRIORITY = 1,
-    REDIRECT_PRIORITY,
-    END_PRIORITY,
-};
-
 class Call : public Process {
 public:
     Call(Config &config, Call *redirected = nullptr)
