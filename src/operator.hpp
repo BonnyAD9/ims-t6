@@ -13,7 +13,6 @@ public:
     Operator(std::string name)
         : _name(std::move(name)), _queue(_name.c_str()) { }
 
-    void new_call(Entity *call, bool redirected);
     void end(Entity *ent);
 
     void use(Entity *ent, EntityPriority_t priority);
