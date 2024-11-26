@@ -1,9 +1,9 @@
-#include <simlib.h>
-
-#include <vector>
 #include <format>
-#include <memory>
 #include <iostream>
+#include <memory>
+#include <vector>
+
+#include <simlib.h>
 
 constexpr double RUN_TIME = 1000;
 
@@ -40,25 +40,29 @@ public:
 
     static constexpr double LONG_DISTANCE_WAIT = 20 * 60;
 
-    Call(Call *redirected = nullptr) : _redirected(redirected), _operator(*operators[static_cast<std::size_t>(Random() * operators.size())]) {}
+    Call(Call *redirected = nullptr)
+        : _redirected(redirected),
+          _operator(
+              *operators[static_cast<std::size_t>(Random() * operators.size())]
+          ) { }
 
     void Behavior() override {
         Seize(_operator, _redirected ? REDIRECT_PRIORITY : ENTER_PRIORITY);
         Wait(Uniform(ASK_NUMBER_TIME_MIN, ASK_NUMBER_TIME_MAX));
         auto action = get_action();
         switch (action) {
-            case Action::UNKNOWN_NUMBER:
-                end();
-                break;
-            case Action::DIRECTLY:
-                direct_call();
-                break;
-            case Action::LONG_DISTANCE:
-                long_distance_call();
-                break;
-            case Action::REDIRECT:
-                redirect_call();
-                break;
+        case Action::UNKNOWN_NUMBER:
+            end();
+            break;
+        case Action::DIRECTLY:
+            direct_call();
+            break;
+        case Action::LONG_DISTANCE:
+            long_distance_call();
+            break;
+        case Action::REDIRECT:
+            redirect_call();
+            break;
         }
     }
 
@@ -125,16 +129,14 @@ private:
 class RingTimeout : public Process {
 public:
     static constexpr double RING_TIMEOUT = 120;
-    RingTimeout(Call &call) : _call(call) {}
+    RingTimeout(Call &call) : _call(call) { }
 
     void Behavior() override {
         Wait(RING_TIMEOUT);
         _call.ring_timeout();
     }
 
-    void cancel() {
-        Terminate();
-    }
+    void cancel() { Terminate(); }
 
 private:
     Call &_call;
@@ -149,7 +151,6 @@ class OutgoingCall : public Event {
         Activate(Time + Exponential(TIME));
     }
 };
-
 
 void Call::direct_call() {
     auto wait = Normal(PICK_TIME, PICK_DEVIATION);
@@ -175,7 +176,8 @@ int main() { // experiment description
         auto s = std::format("operator{}", i);
         s.reserve(sizeof(std::string));
         names.push_back(std::move(s));
-        operators.push_back(std::make_unique<Facility>(names.rbegin()->c_str()));
+        operators.push_back(std::make_unique<Facility>(names.rbegin()->c_str())
+        );
     }
     Run();
     for (auto &op : operators) {
