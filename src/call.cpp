@@ -8,12 +8,19 @@ void Call::Behavior() {
     ++_config.s_started_calls;
     _start_time = Time;
     _operator.start();
+    auto priority = Operator::ENTER_PRIORITY;
+    auto min_ask = _config.ask_number_time_min;
+    auto max_ask = _config.ask_number_time_max;
+    if(_redirected || _incoming) {
+        priority = Operator::REDIRECT_PRIORITY;
+        min_ask = _config.op_ask_number_time_min;
+        max_ask = _config.op_ask_number_time_max;
+    }
     _operator.use(
         this,
-        _redirected || _incoming ? Operator::REDIRECT_PRIORITY
-                                 : Operator::ENTER_PRIORITY
+        priority
     );
-    Wait(Uniform(_config.ask_number_time_min, _config.ask_number_time_max));
+    Wait(Uniform(min_ask, max_ask));
     auto action = get_action();
     switch (action) {
     case Action::UNKNOWN_NUMBER:

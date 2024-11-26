@@ -19,6 +19,8 @@ struct Config {
 
     double ask_number_time_min = 20;
     double ask_number_time_max = 60;
+    double op_ask_number_time_min = 10;
+    double op_ask_number_time_max = 20;
 
     double pick_time = 60;
     double pick_deviation = 30;
