@@ -3,6 +3,8 @@ PARALEL=-j $(shell nproc)
 IMS_T6=src/*.cpp src/*.hpp # src/**/*.cpp src/**/*.hpp
 ALL=$(IMS_T6)
 
+ARCHIVE=T6_xstigl00_xsleza26
+
 .PHONY: all
 all: build
 
@@ -35,7 +37,17 @@ tidy: build
 .PHONY: check
 check: fmt cppcheck tidy
 
+.PHONY: doc
+doc:
+	cd doc && make
+
+.PHONY: submit
+submit:
+	./submit.sh $(ARCHIVE)
+	zip $(ARCHIVE).zip $(ARCHIVE)
+
 .PHONY: clean
 clean:
 	-cd build && $(MAKE) clean
 	cd doc && $(MAKE) clean
+	rm -r $(ARCHIVE)
