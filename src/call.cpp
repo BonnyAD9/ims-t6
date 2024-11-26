@@ -4,7 +4,11 @@
 
 void Call::Behavior() {
     _start_time = Time;
-    _operator.use(this, _redirected ? Operator::REDIRECT_PRIORITY : Operator::ENTER_PRIORITY);
+    _operator.use(
+        this,
+        _redirected || _incoming ? Operator::REDIRECT_PRIORITY
+                                 : Operator::ENTER_PRIORITY
+    );
     Wait(Uniform(_config.ask_number_time_min, _config.ask_number_time_max));
     auto action = get_action();
     switch (action) {

@@ -4,6 +4,7 @@
 
 #include "call.hpp"
 #include "config.hpp"
+#include "incoming_call.hpp"
 #include "outgoing_call.hpp"
 
 void start() {
@@ -18,6 +19,7 @@ void start() {
 
     Init(0, conf.run_time);
     (new OutgoingCall(conf))->Activate();
+    (new IncomingCall(conf))->Activate();
     Run();
     for (auto &op : conf.operators) {
         op->output();

@@ -34,6 +34,7 @@ struct Config {
     double p_redirect = 0.15;
 
     double call_distance = 60;
+    double incall_distance = 5 * 60;
 
     // NOLINTEND(readability-magic-numbers)
 

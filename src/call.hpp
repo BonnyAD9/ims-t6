@@ -16,6 +16,12 @@ public:
           _redirected(redirected),
           _operator(config.rng_op()) { }
 
+    Call(Config &config, bool incoming)
+        : _config(config),
+          _redirected(nullptr),
+          _incoming(incoming),
+          _operator(config.rng_op()) { }
+
     void Behavior() override;
 
 private:
@@ -28,6 +34,7 @@ private:
 
     Config &_config;
     Call *_redirected;
+    bool _incoming = false;
     Operator &_operator;
 
     double _start_time = 0;
