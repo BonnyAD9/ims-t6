@@ -10,9 +10,9 @@ void Config::init() {
     p_redirect *= ndiv;
 
     while (operators.size() < op_cnt) {
-        operators.push_back(
-            std::make_unique<Operator>(std::format("operator{}", operators.size()))
-        );
+        operators.push_back(std::make_unique<Operator>(
+            std::format("operator{}", operators.size())
+        ));
     }
 }
 

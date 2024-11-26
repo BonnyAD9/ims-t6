@@ -1,10 +1,15 @@
+#include <chrono>
+
 #include <simlib.h>
 
 #include "call.hpp"
 #include "config.hpp"
 #include "outgoing_call.hpp"
 
-void start() { // experiment description
+void start() {
+    RandomSeed(long(std::chrono::system_clock::now().time_since_epoch().count()
+    ));
+
     Print("calls - SIMLIB/C++ example\n");
     SetOutput("model.out");
 
