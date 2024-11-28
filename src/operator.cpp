@@ -6,6 +6,17 @@ void Operator::start() { ++_started; }
 
 void Operator::end() { ++_finished; }
 
+void Operator::break_start() {
+    _utilization += Time - _start_time;
+    _start_time = Time;
+}
+
+void Operator::break_end() {
+    _break_time += Time - _start_time;
+    _start_time = Time;
+    ++_break_cnt;
+}
+
 void Operator::use(Entity *ent, EntityPriority_t priority) {
     if (ent == _cur) {
         return;
@@ -48,4 +59,6 @@ void Operator::output() {
     PRINTLN("  utilization: {}", util / (Time - StartTime));
     PRINTLN("  users      : {}", _started);
     PRINTLN("  whole calls: {}", _finished);
+    PRINTLN("  break count: {}", _break_cnt);
+    PRINTLN("  break_time : {}", _break_time);
 }

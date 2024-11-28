@@ -3,6 +3,7 @@
 #include <format>
 
 #include "format.hpp"
+#include "op_break.hpp"
 
 void Config::init() {
     auto ndiv = 1 / fmax_redirect();
@@ -15,6 +16,7 @@ void Config::init() {
         operators.push_back(std::make_unique<Operator>(
             std::format("operator{}", operators.size())
         ));
+        (new OpBreak(*this, **operators.rbegin()))->Activate();
     }
 }
 

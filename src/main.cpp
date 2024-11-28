@@ -30,12 +30,14 @@ void start(Args args) {
     PRINTLN("SIMLIB/C++ - Telephone Exchange");
 
     Config conf = std::move(args.config);
-    conf.init();
 
     Init(0, conf.run_time);
+    conf.init();
     (new OutgoingCall(conf))->Activate();
     (new IncomingCall(conf))->Activate();
+
     Run();
+
     conf.output();
     for (auto &op : conf.operators) {
         op->output();

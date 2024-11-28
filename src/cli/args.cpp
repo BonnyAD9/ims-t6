@@ -72,6 +72,12 @@ Args::Args(std::span<char *> args) {
             config.call_distance = parse_next<double>(arg, end, POSITIVE);
         } else if (*arg == "--in_dst"s) {
             config.incall_distance = parse_next<double>(arg, end, POSITIVE);
+        } else if (*arg == "--min-duty"s) {
+            config.min_duty = parse_next<double>(arg, end, POSITIVE);
+        } else if (*arg == "--max-duty"s) {
+            config.max_duty = parse_next<double>(arg, end, POSITIVE);
+        } else if (*arg == "--switch-time"s) {
+            config.switch_time = parse_next<double>(arg, end, POSITIVE);
         } else {
             THROW("Unknown argument `{}`", *arg);
         }

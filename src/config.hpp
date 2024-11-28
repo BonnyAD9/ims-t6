@@ -42,6 +42,10 @@ struct Config {
     double call_distance = 60;
     double incall_distance = 5 * 60;
 
+    double min_duty = 45 * 60;
+    double max_duty = 75 * 60;
+    double switch_time = 30;
+
     // Stats
 
     std::size_t s_started_calls = 0;

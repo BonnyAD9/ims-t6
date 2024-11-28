@@ -16,6 +16,9 @@ public:
     void start();
     void end();
 
+    void break_start();
+    void break_end();
+
     void use(Entity *ent, EntityPriority_t priority);
     void release(Entity *ent);
     void output();
@@ -24,6 +27,7 @@ public:
         ENTER_PRIORITY = 1,
         REDIRECT_PRIORITY,
         END_PRIORITY,
+        BREAK_PRIORITY,
     };
 
 private:
@@ -35,4 +39,6 @@ private:
     double _start_time = 0;
     std::size_t _started;
     std::size_t _finished;
+    std::size_t _break_cnt = 0;
+    double _break_time = 0;
 };
