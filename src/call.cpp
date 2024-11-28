@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "debug.hpp"
+#include "format.hpp"
 
 void Call::Behavior() {
     ++_config.s_started_calls;
@@ -11,15 +11,12 @@ void Call::Behavior() {
     auto priority = Operator::ENTER_PRIORITY;
     auto min_ask = _config.ask_number_time_min;
     auto max_ask = _config.ask_number_time_max;
-    if(_redirected || _incoming) {
+    if (_redirected || _incoming) {
         priority = Operator::REDIRECT_PRIORITY;
         min_ask = _config.op_ask_number_time_min;
         max_ask = _config.op_ask_number_time_max;
     }
-    _operator.use(
-        this,
-        priority
-    );
+    _operator.use(this, priority);
     Wait(Uniform(min_ask, max_ask));
     auto action = get_action();
     switch (action) {

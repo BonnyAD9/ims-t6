@@ -2,7 +2,7 @@
 
 #include <format>
 
-#include "debug.hpp"
+#include "format.hpp"
 
 void Config::init() {
     auto ndiv = 1 / fmax_redirect();

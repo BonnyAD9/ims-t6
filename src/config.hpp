@@ -10,6 +10,10 @@
 #include "operator.hpp"
 
 struct Config {
+    Config() = default;
+    Config(Config &&) = default;
+    Config &operator=(Config &&) = default;
+
     // NOLINTBEGIN(readability-magic-numbers)
 
     double run_time = 12 * 3600;

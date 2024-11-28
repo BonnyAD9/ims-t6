@@ -4,7 +4,7 @@
 
 #include "call.hpp"
 #include "config.hpp"
-#include "debug.hpp"
+#include "format.hpp"
 
 class OutgoingCall : public Event {
 public:

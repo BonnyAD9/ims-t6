@@ -1,6 +1,6 @@
 #include "operator.hpp"
 
-#include "debug.hpp"
+#include "format.hpp"
 
 void Operator::start() { ++_started; }
 
