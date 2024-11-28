@@ -14,14 +14,14 @@
 
 void help() {
     std::cout
-        << "Welcome in " ITALIC GREEN "ims-t6" RESET " help by " XSTIGL00 RESET
-           " and " XSLEZA26 RESET "\n"
+        << "Welcome in " ITALIC GREEN "ims-t6" RESET " help by " XSLEZA26 RESET
+           " and " XSTIGL00 RESET "\n"
            "Version 1.0.0\n"
            "\n" GREEN "Usage:\n"
            "  " CYAN "ims-t6 " DGRAY "[" DYELLOW "flags" DGRAY "]\n"
            "\n" GREEN "Flags:\n"
            "  " YELLOW "-h  -?  --help " RESET "\n"
-           "    Set for how long the simulation will run.\n"
+           "    Show this help.\n"
            "\n"
            "  " YELLOW "-t  --time " WHITE "<time>" RESET "\n"
            "    Set for how long the simulation will run. Default is 86400\n"
