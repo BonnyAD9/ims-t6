@@ -44,7 +44,6 @@ doc:
 .PHONY: submit
 submit:
 	./submit.sh $(ARCHIVE)
-	zip $(ARCHIVE).zip $(ARCHIVE)
 
 .PHONY: clean
 clean:

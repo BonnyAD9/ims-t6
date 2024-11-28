@@ -1,13 +1,15 @@
 #!/usr/bin/bash
 
+set -e
+
 archive=${1:-T6_xstigl00_xsleza26}
 
-mkdir $archive
+mkdir $archive || true
 
 make doc
 cp doc/doc.pdf $archive
 
-cp -r src CMakeLists.txt README.md $archive
+cp -r src CMakeLists.txt $archive
 
 cd $archive
 cat >./Makefile <<EOL
@@ -35,3 +37,9 @@ EOL
 
 echo 'target_link_libraries(ims-t6 PRIVATE -static-libstdc++)' \
     >> CMakeLists.txt
+
+tar czf ../T6_xstigl00_xsleza26.tar.gz -- *
+
+cd ..
+
+rm -r T6_xstigl00_xsleza26/
