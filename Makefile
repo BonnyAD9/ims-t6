@@ -49,4 +49,4 @@ submit:
 clean:
 	-cd build && $(MAKE) clean
 	cd doc && $(MAKE) clean
-	rm -r $(ARCHIVE)
+	-rm -r $(ARCHIVE).tar.gz
