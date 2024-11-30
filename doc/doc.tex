@@ -29,11 +29,11 @@
 \section{Úvod}
 
 Tento projekt představuje simulaci historického modelu telekomunikační
-infrastruktury, konkrétně v období, kdy byly telefonní hovory zajišťovány
-manuálními ústřednami. Tyto ústředny zajišťovaly propojení hovorů mezi
-účastníky. Každá ústředna obsahovala několik stanic se zásuvnými deskami, které
-byly vybaveny konektory pro připojení jednotlivých telefonních spojení. U
-těchto stanic pracovali operátoři, jejichž úkolem bylo manuálně připojovat
+infrastruktury\cite{wikipedia}, konkrétně v období, kdy byly telefonní hovory
+zajišťovány manuálními ústřednami. Tyto ústředny zajišťovaly propojení hovorů
+mezi účastníky. Každá ústředna obsahovala několik stanic se zásuvnými deskami,
+které byly vybaveny konektory pro připojení jednotlivých telefonních spojení.
+U těchto stanic pracovali operátoři, jejichž úkolem bylo manuálně připojovat
 dráty do správných konektorů, aby bylo možné uskutečnit hovor.
 
 \subsection{Průběh hovoru}
@@ -62,33 +62,57 @@ Proces spojení hovoru probíhal následujícím způsobem:
         \end{itemize}
 \end{enumerate}
 
-\section{Ceny přechodů}
+\subsection{Výsledek modelu}
+
+Výsledek modelu nám ukáže, jak velký čas pracovníci reálně pracují a také
+jestli ústředna stíhá všechny hovory, jak má. Na základě tohoto modelu můžeme
+poté vidět, jak efektivní je práce a zda daná ústředna má dost úředníku a
+jednotlivých stanic. Také se dozvíme základní statistiky o hovorech, jako je
+průměrný čas čekání na spojení, průměrný čas zvonění nebo průměrný čas hovoru.
+
+\section{Fakta a hypotézy}
 
 Při tvoření modelu jsme se snažili odhadnout ceny jednotlivých přechodů na
 základě našeho internetového průzkumu. Některé přechody jsou časové, některé
-zase náhodné s nepravidelným rozložením. V této sekci bych chtěl popsat ty
+zase náhodné s nepravidelným rozložením. V této sekci popíšeme chtěl popsat ty
 nejzajímavější.
 
-\subsection*{Dotaz na číslo}
+\subsection{Fakta}
 
-Například dotaz na číslo jsme odhadli, že bude trvat zhruba 20-60 sekund.
-V případě přesměrování se poté jednotlivý operátoři ptají na číslo a jelikož
-již mají praxi, zabere jim to pouze 10-20 sekund.
+V této sekci jsou popsány informace, které máme podloženy na základě
+internetového průzkumu.
 
-\subsection*{Doba spojení dálkového hovoru}
+\subsubsection*{Doba spojení dálkového hovoru}
 
 Doba spojení u dálkových hovorů se mohla velmi lišit v závislosti na dálce
 spojení a počtu ústředen na trase hovoru. V roce 1918 byl průměrný čas spojení
-dálkového hovoru 15 minut. My jsme tedy pro náš model zvolili exponencionální
-rozložení se středem 20 minut.
+dálkového hovoru 15 minut\cite{wikipedia}. My jsme tedy pro náš model zvolili
+exponencionální rozložení se středem 20 minut.
 
-\subsection*{Doba hovoru}
+\subsection{Hypotézy}
+
+Mnoho údajů z dřívejší doby ohledně telefoniky není bohužel dohledatelných,
+tudíž jsme některé informace museli odhadnout.
+
+\subsubsection*{Dotaz na číslo}
+
+Například dotaz na číslo jsme odhadli, že bude trvat zhruba 20-60 sekund.
+V případě přesměrování se poté jednotlivý operátoři ptají na číslo a jelikož
+již mají praxi, zabere jim to pouze 10-20 sekund. Tento odhad vznikl na základě
+simulace situace, kdy jsme se zkusili zeptat na číslo a zohlednili jsme, že
+někteří volající můžou mít například problém se čtením a bude jim trvat číslo
+přečíst.
+
+\subsubsection*{Doba hovoru}
 
 Dříve hovory nebyly tak časté a když už někdo někomu volal, pravděpodobně s ním
 nějakou dobu mluvil. Na základě tohoto úsudku jsme se rozhodli modelovat dobu
-hovoru jako exponencionální rozložení se středem 5 minut.
+hovoru jako exponencionální rozložení se středem 5 minut. Tento odhad vznikl
+na základě porovnání vůči dnešní době, kdy většina hovorů trvá pouze několik
+sekund, zato však probíhají klidně i několikrát denně. Když by se tedy tyto
+hovory nahradili například jedním hovorem za týden, trval by několik minut.
 
-\subsection*{Dělení hovoru}
+\subsubsection*{Dělení hovoru}
 
 Příchozí hovor náhodně dělíme do čtyř podkategorií s nepravidelným rozložením.
 Tyto kategorie jsou:
@@ -99,6 +123,9 @@ Tyto kategorie jsou:
     \item Přesměrování na jinou desku (15\%)
 \end{enumerate}
 
+Tento odhad je založen na předpokladu, že volající bude bydlet v okolí svých
+příbuzných a tedy většina hovorů bude přímé spojení.
+
 \section{Spuštění projektu}
 
 \subsection*{Nainstalování závislostí}
@@ -107,7 +134,7 @@ Před samotným spuštěním je třeba mít nainstalované tyto závislosti:
 \begin{itemize}
     \item make
     \item cmake
-    \item C++ compiler
+    \item C++ compiler pro C++ 20 a novější
     \item SIMLIB
 \end{itemize}
 
@@ -121,6 +148,15 @@ Projekt lze spustit pomocí připraveného \texttt{Makefile}:
 \noindent Je také možné projekt pouze zkompilovat:
 \begin{verbatim}
     make
+\end{verbatim}
+
+\subsection*{Konfigurace}
+
+Náš program podporuje i nakonfigurovat proměnné dle potřeby. Jednotlivé
+parametry lze nastavit za pomocí argumentů při spuštění aplikace. Více se lze
+dozvědět v nápovědě programu.
+\begin{verbatim}
+    ./ims-t6 -h
 \end{verbatim}
 
 \newpage
